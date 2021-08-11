@@ -2,6 +2,7 @@
 using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -15,7 +16,11 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
     // Start is called before the first frame update
     void OnEnable()
     {
-        CoreServices.InputSystem.Register(gameObject);
+        // CoreServices.InputSystem.Register(gameObject);
+        CoreServices.InputSystem.RegisterHandler<IMixedRealityPointerHandler>(this);
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.widthMultiplier = 0.01f;
 
     }
 
@@ -23,7 +28,7 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
     {
         if (CoreServices.InputSystem != null)
         {
-            CoreServices.InputSystem.Unregister(gameObject);
+            CoreServices.InputSystem.UnregisterHandler<IMixedRealityPointerHandler>(this);
         }
         points = new Vector3[3];
         currentIndex = 0;
@@ -39,26 +44,21 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
 
     public void OnPointerUp(MixedRealityPointerEventData eventData)
     {
-        // if (spawnObject != null && eventData.InputSource.SourceType == sourceType)
         if (eventData.InputSource.SourceType == sourceType)
         {
-            // var spawn = Instantiate(spawnObject);
             var result = eventData.Pointer.Result;
-            // if (result != null)
-            // {
-            //     spawn.transform.position = result.Details.Point;
-            // }
-            // my code
             if (result != null && currentIndex < 3)
             {
                 points[currentIndex] = result.Details.Point;
-                Debug.Log(points[currentIndex]);
+                // Debug.Log(points[currentIndex]);
 
-                if (currentIndex == 1)
+                if (currentIndex == 0)
                 {
-                    lineRenderer = gameObject.AddComponent<LineRenderer>();
-                    lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-                    lineRenderer.widthMultiplier = 0.02f;
+                    lineRenderer.positionCount = 0;
+                    text.SetText("");
+                }
+                else if (currentIndex == 1)
+                {
                     lineRenderer.positionCount = 2;
                     Vector3[] linePoints = { points[0], points[1] };
                     lineRenderer.SetPositions(linePoints);
@@ -70,9 +70,10 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
                     lineRenderer.SetPositions(linePoints);
 
                     float angle = calculateAngle(points[0], points[1], points[2]);
-                    text.SetText("the angle is " + angle);
+                    text.SetText(Math.Round(angle, 2)+" degrees");
                     text.transform.position = points[1];
-                    Debug.Log(angle);
+                    // Debug.Log(angle);
+                    currentIndex = -1;
                 }
 
                 currentIndex++;
