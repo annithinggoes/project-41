@@ -345,6 +345,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e969038e4d67d9b498de2ef538969506, type: 3}
+--- !u!1 &308155386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 294946215309658010, guid: fb1b600dc94c3954099cc101e25ee744,
+    type: 3}
+  m_PrefabInstance: {fileID: 658034092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &465349653 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2732376130313334389, guid: fb1b600dc94c3954099cc101e25ee744,
@@ -543,10 +549,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e40c2938872500e42b1822beade19c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angleMarker: {fileID: 2732376130313334389, guid: fb1b600dc94c3954099cc101e25ee744,
-    type: 3}
+  angleMarker: {fileID: 308155386}
   curlThreshold: 0.5
-  straightThreshold: 0.5
+  straightThreshold: 0
 --- !u!4 &853403265
 Transform:
   m_ObjectHideFlags: 0

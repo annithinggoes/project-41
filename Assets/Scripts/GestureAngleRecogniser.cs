@@ -25,23 +25,40 @@ public class GestureAngleRecogniser : MonoBehaviour
     void Start()
     {
         cube = Instantiate(angleMarker, this.transform);
+        cube.GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (cube.GetComponent<Renderer>().enabled == true)
+        {
+            //
+        }
+        else
+        {
+
+        }
         cube.GetComponent<Renderer>().enabled = false;
 
         Handedness hand = Handedness.Right;
 
-        if (HandPoseUtils.ThumbFingerCurl(hand) < straightThreshold &&
-        HandPoseUtils.IndexFingerCurl(hand) < straightThreshold &&
-        HandPoseUtils.MiddleFingerCurl(hand) > curlThreshold &&
-        HandPoseUtils.RingFingerCurl(hand) > curlThreshold &&
-        HandPoseUtils.PinkyFingerCurl(hand) > curlThreshold)
+        // Check if hand in view
+        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, hand, out MixedRealityPose pose))
         {
-            cube.GetComponent<Renderer>().enabled = true;
-            cube.transform.position = new Vector3(0,0,0.5f);
+            if (HandPoseUtils.ThumbFingerCurl(hand) <= straightThreshold &&
+            HandPoseUtils.IndexFingerCurl(hand) <= straightThreshold &&
+            HandPoseUtils.MiddleFingerCurl(hand) > curlThreshold &&
+            HandPoseUtils.RingFingerCurl(hand) > curlThreshold &&
+            HandPoseUtils.PinkyFingerCurl(hand) > curlThreshold)
+            {
+                cube.GetComponent<Renderer>().enabled = true;
+                cube.transform.position = new Vector3(0, 0, 0.5f);
+            }
+            Debug.Log("Thumb" + HandPoseUtils.ThumbFingerCurl(hand));
+            Debug.Log("Index" + HandPoseUtils.IndexFingerCurl(hand));
         }
+
     }
 }
+
