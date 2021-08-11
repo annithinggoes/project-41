@@ -2,15 +2,16 @@
 using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHandler
 {
-    public GameObject spawnObject;
     public InputSourceType sourceType = InputSourceType.Hand;
     private Vector3[] points = new Vector3[3];
     private int currentIndex = 0;
     private LineRenderer lineRenderer;
+    public TextMeshPro text;
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -57,9 +58,8 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
                 {
                     lineRenderer = gameObject.AddComponent<LineRenderer>();
                     lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-                    lineRenderer.widthMultiplier = 0.2f;
+                    lineRenderer.widthMultiplier = 0.02f;
                     lineRenderer.positionCount = 2;
-                    lineRenderer.alignment = LineAlignment.TransformZ;
                     Vector3[] linePoints = { points[0], points[1] };
                     lineRenderer.SetPositions(linePoints);
                 }
@@ -70,6 +70,8 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
                     lineRenderer.SetPositions(linePoints);
 
                     float angle = calculateAngle(points[0], points[1], points[2]);
+                    text.SetText("the angle is " + angle);
+                    text.transform.position = points[1];
                     Debug.Log(angle);
                 }
 
