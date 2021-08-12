@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using TMPro;
 using Microsoft;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Input;
 
 public class GestureAngleRecogniser : MonoBehaviour
 {
-    public GameObject angleMarker;
-
     /// <summary>
     /// Threshold for defining a curled finger
     /// </summary>
@@ -20,27 +19,17 @@ public class GestureAngleRecogniser : MonoBehaviour
     /// </summary>
     public float straightThreshold;
 
-    GameObject cube;
+    public TextMeshPro textMeshPro;
+    public TextMeshPro textMeshProHit;
+
     // Start is called before the first frame update
     void Start()
     {
-        cube = Instantiate(angleMarker, this.transform);
-        cube.GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (cube.GetComponent<Renderer>().enabled == true)
-        {
-            //
-        }
-        else
-        {
-
-        }
-        cube.GetComponent<Renderer>().enabled = false;
-
         Handedness hand = Handedness.Right;
 
         // Check if hand in view
@@ -52,12 +41,26 @@ public class GestureAngleRecogniser : MonoBehaviour
             HandPoseUtils.RingFingerCurl(hand) > curlThreshold &&
             HandPoseUtils.PinkyFingerCurl(hand) > curlThreshold)
             {
-                cube.GetComponent<Renderer>().enabled = true;
-                cube.transform.position = new Vector3(0, 0, 0.5f);
+                textMeshProHit.SetText(
+                    "Thumb" + HandPoseUtils.ThumbFingerCurl(hand)
+                + "\nIndex" + HandPoseUtils.IndexFingerCurl(hand)
+                + "\nMiddle" + HandPoseUtils.MiddleFingerCurl(hand)
+                + "\nRing" + HandPoseUtils.RingFingerCurl(hand)
+                + "\nPinky" + HandPoseUtils.PinkyFingerCurl(hand)
+                + "\nHIT");
+                Debug.Log("HIT");
             }
             Debug.Log("Thumb" + HandPoseUtils.ThumbFingerCurl(hand));
             Debug.Log("Index" + HandPoseUtils.IndexFingerCurl(hand));
+            textMeshPro.SetText(
+                "Thumb" + HandPoseUtils.ThumbFingerCurl(hand)
+                + "\nIndex" + HandPoseUtils.IndexFingerCurl(hand)
+                + "\nMiddle" + HandPoseUtils.MiddleFingerCurl(hand)
+                + "\nRing" + HandPoseUtils.RingFingerCurl(hand)
+                + "\nPinky" + HandPoseUtils.PinkyFingerCurl(hand)
+                );
         }
+
 
     }
 }
