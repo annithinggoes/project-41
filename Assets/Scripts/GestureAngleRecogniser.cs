@@ -21,6 +21,7 @@ public class GestureAngleRecogniser : MonoBehaviour
 
     public TextMeshPro textMeshPro;
     public TextMeshPro textMeshProHit;
+    public TextMeshPro textMeshProWrist;
 
     // Start is called before the first frame update
     void Start()
@@ -42,25 +43,30 @@ public class GestureAngleRecogniser : MonoBehaviour
             HandPoseUtils.PinkyFingerCurl(hand) > curlThreshold)
             {
                 textMeshProHit.SetText(
-                    "Thumb" + HandPoseUtils.ThumbFingerCurl(hand)
-                + "\nIndex" + HandPoseUtils.IndexFingerCurl(hand)
-                + "\nMiddle" + HandPoseUtils.MiddleFingerCurl(hand)
-                + "\nRing" + HandPoseUtils.RingFingerCurl(hand)
-                + "\nPinky" + HandPoseUtils.PinkyFingerCurl(hand)
-                + "\nHIT");
+                    "Thumb " + HandPoseUtils.ThumbFingerCurl(hand)
+                + "\nIndex " + HandPoseUtils.IndexFingerCurl(hand)
+                + "\nMiddle " + HandPoseUtils.MiddleFingerCurl(hand)
+                + "\nRing " + HandPoseUtils.RingFingerCurl(hand)
+                + "\nPinky " + HandPoseUtils.PinkyFingerCurl(hand)
+                );
                 Debug.Log("HIT");
             }
             Debug.Log("Thumb" + HandPoseUtils.ThumbFingerCurl(hand));
             Debug.Log("Index" + HandPoseUtils.IndexFingerCurl(hand));
             textMeshPro.SetText(
-                "Thumb" + HandPoseUtils.ThumbFingerCurl(hand)
-                + "\nIndex" + HandPoseUtils.IndexFingerCurl(hand)
-                + "\nMiddle" + HandPoseUtils.MiddleFingerCurl(hand)
-                + "\nRing" + HandPoseUtils.RingFingerCurl(hand)
-                + "\nPinky" + HandPoseUtils.PinkyFingerCurl(hand)
+                "Thumb " + HandPoseUtils.ThumbFingerCurl(hand)
+                + "\nIndex " + HandPoseUtils.IndexFingerCurl(hand)
+                + "\nMiddle " + HandPoseUtils.MiddleFingerCurl(hand)
+                + "\nRing " + HandPoseUtils.RingFingerCurl(hand)
+                + "\nPinky " + HandPoseUtils.PinkyFingerCurl(hand)
                 );
-        }
 
+            if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist, hand, out MixedRealityPose wristPose))
+            {
+                textMeshProWrist.SetText("Wrist\n Position " + wristPose.Position 
+                + "\nRotation " + wristPose.Rotation);
+            }
+        }
 
     }
 }
