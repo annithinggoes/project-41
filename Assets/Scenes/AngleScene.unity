@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 181997441}
   - component: {fileID: 181997440}
   - component: {fileID: 181997439}
-  - component: {fileID: 181997438}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -156,29 +155,6 @@ Transform:
   m_Father: {fileID: 1589686250}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &181997438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181997436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf98dd1206224111a38765365e98e207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockCursorWhenFocusLocked: 1
-  setCursorInvisibleWhenFocusLocked: 0
-  maxGazeCollisionDistance: 10
-  raycastLayerMasks:
-  - serializedVersion: 2
-    m_Bits: 4294967291
-  stabilizer:
-    storedStabilitySamples: 60
-  gazeTransform: {fileID: 0}
-  minHeadVelocityThreshold: 0.5
-  maxHeadVelocityThreshold: 2
 --- !u!114 &181997439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d9acc7968244a8886f3af591305bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeProfile: {fileID: 11400000, guid: 7568b85d3e91be54ea5f99c38528d7db, type: 2}
+  activeProfile: {fileID: 11400000, guid: d24a0e0bd95655949befbc600f4d19dc, type: 2}
 --- !u!4 &319550354
 Transform:
   m_ObjectHideFlags: 0
@@ -378,7 +354,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 624837435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 313c4248fdc342045827f3bd3839db08, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a4665fb57fc50b4eb926e8f024661a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sourceType: 1
