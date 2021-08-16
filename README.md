@@ -1,9 +1,5 @@
 # project-41
 
-## To Build
-1) File > Build Settings
-2) Add the open scene to the build and press build
-
 ## To Deploy
 1) Open build solution file that was generated from Unity
 2) In the solution explorer, right click, Publish > App Packages
