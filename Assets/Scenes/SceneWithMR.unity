@@ -700,7 +700,7 @@ PrefabInstance:
     - target: {fileID: 1401539856728015991, guid: 68f07ae50e44f0941a7a43bafa8ebb99,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.019
+      value: 0.458
       objectReference: {fileID: 0}
     - target: {fileID: 1401539856728015991, guid: 68f07ae50e44f0941a7a43bafa8ebb99,
         type: 3}
@@ -710,7 +710,7 @@ PrefabInstance:
     - target: {fileID: 1401539856728015991, guid: 68f07ae50e44f0941a7a43bafa8ebb99,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.014
+      value: 0.151
       objectReference: {fileID: 0}
     - target: {fileID: 1401539856728015991, guid: 68f07ae50e44f0941a7a43bafa8ebb99,
         type: 3}
@@ -751,6 +751,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Questionable Cube (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384311985471105998, guid: 68f07ae50e44f0941a7a43bafa8ebb99,
+        type: 3}
+      propertyPath: m_text
+      value: Stairs
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68f07ae50e44f0941a7a43bafa8ebb99, type: 3}
@@ -1210,7 +1215,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   facingCameraTrackingThreshold: 80
-  requireFlatHand: 0
+  requireFlatHand: 1
   flatHandThreshold: 60.6
   followHandUntilFacingCamera: 0
   followHandCameraFacingThresholdAngle: 60
