@@ -1215,7 +1215,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   facingCameraTrackingThreshold: 80
-  requireFlatHand: 0
+  requireFlatHand: 1
   flatHandThreshold: 60.6
   followHandUntilFacingCamera: 0
   followHandCameraFacingThresholdAngle: 60
