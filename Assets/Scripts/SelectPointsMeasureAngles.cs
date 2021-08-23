@@ -21,7 +21,7 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.01f;
-
+        lineRenderer.positionCount = 0;
     }
 
     private void OnDisable()
