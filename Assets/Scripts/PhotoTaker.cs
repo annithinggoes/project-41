@@ -99,7 +99,7 @@ public class PhotoTaker : MonoBehaviour
         Renderer quadRenderer = quad.GetComponent<Renderer>() as Renderer;
         quadRenderer.material = new Material(Shader.Find("Unlit/Texture"));
         quadRenderer.material.SetTexture("_MainTex", targetTexture);
-        showPhototimeRemaining = 2;
+        showPhototimeRemaining = 5;
         showPhotoTimerIsRunning = true;
 
         // Deactivate our camera
