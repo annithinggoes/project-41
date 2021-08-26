@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1599,7 +1599,7 @@ PrefabInstance:
     - target: {fileID: 3359836168696198351, guid: fb1b600dc94c3954099cc101e25ee744,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3359836168696198351, guid: fb1b600dc94c3954099cc101e25ee744,
         type: 3}
@@ -4594,7 +4594,7 @@ MonoBehaviour:
   minDistance: 0.3
   maxDistance: 1
   defaultDistance: 0.7
-  maxViewHorizontalDegrees: 50
+  maxViewHorizontalDegrees: 0
   maxViewVerticalDegrees: 60
   reorientWhenOutsideParameters: 1
   orientToControllerDeadzoneDegrees: 60
