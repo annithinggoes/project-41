@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +20,8 @@ public class GestureAngleRecogniser : MonoBehaviour
     public float angleStraightThreshold;
     public float thumbsUpCurlThreshold;
     public float thumbsUpStraightThreshold;
+    public float pointCurlThreshold;
+    public float pointStraightThreshold;
 
     public TextMeshPro textMeshPro;
     public TextMeshPro textMeshProHit;
@@ -47,6 +49,10 @@ public class GestureAngleRecogniser : MonoBehaviour
             {
 
             }
+            else if (checkDistance())
+            {
+                textMeshProHit.SetText("DISTANCE");
+            }
             else
             {
                 textMeshProHit.SetText("NONE");
@@ -62,11 +68,11 @@ public class GestureAngleRecogniser : MonoBehaviour
                 + "\nPinky " + HandPoseUtils.PinkyFingerCurl(rightHand)
                 );
 
-            if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist, rightHand, out MixedRealityPose wristPose))
-            {
-                textMeshProWrist.SetText("Wrist\n Position " + wristPose.Position
-                + "\nRotation " + wristPose.Rotation);
-            }
+            // if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist, rightHand, out MixedRealityPose wristPose))
+            // {
+            //     textMeshProWrist.SetText("Wrist\n Position " + wristPose.Position
+            //     + "\nRotation " + wristPose.Rotation);
+            // }
 
         }
     }
@@ -75,10 +81,10 @@ public class GestureAngleRecogniser : MonoBehaviour
     {
         Debug.Log("checkAngle");
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= angleStraightThreshold &&
-        HandPoseUtils.IndexFingerCurl(rightHand) <= angleStraightThreshold &&
-        HandPoseUtils.MiddleFingerCurl(rightHand) > angleCurlThreshold &&
-        HandPoseUtils.RingFingerCurl(rightHand) > angleCurlThreshold &&
-        HandPoseUtils.PinkyFingerCurl(rightHand) > angleCurlThreshold)
+            HandPoseUtils.IndexFingerCurl(rightHand) <= angleStraightThreshold &&
+            HandPoseUtils.MiddleFingerCurl(rightHand) > angleCurlThreshold &&
+            HandPoseUtils.RingFingerCurl(rightHand) > angleCurlThreshold &&
+            HandPoseUtils.PinkyFingerCurl(rightHand) > angleCurlThreshold)
         {
             textMeshProHit.SetText("ANGLE");
             Debug.Log("L HIT");
@@ -91,10 +97,10 @@ public class GestureAngleRecogniser : MonoBehaviour
         Debug.Log("checkThumbsUp");
 
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpStraightThreshold &&
-        HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
-        HandPoseUtils.MiddleFingerCurl(rightHand) > thumbsUpCurlThreshold &&
-        HandPoseUtils.RingFingerCurl(rightHand) > thumbsUpCurlThreshold &&
-        HandPoseUtils.PinkyFingerCurl(rightHand) > thumbsUpCurlThreshold)
+            HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
+            HandPoseUtils.MiddleFingerCurl(rightHand) > thumbsUpCurlThreshold &&
+            HandPoseUtils.RingFingerCurl(rightHand) > thumbsUpCurlThreshold &&
+            HandPoseUtils.PinkyFingerCurl(rightHand) > thumbsUpCurlThreshold)
         {
             if (isThumbUp())
             {
@@ -136,4 +142,56 @@ public class GestureAngleRecogniser : MonoBehaviour
         }
         return false;
     }
+    bool checkDistance()
+    {
+        Debug.Log("checkDistance");
+        Handedness leftHand = Handedness.Left;
+
+        if (isIndexPointed(rightHand) && isIndexPointed(leftHand))
+        {
+            if (isFacingTowardsCentre(rightHand) && isFacingTowardsCentre(leftHand))
+            {
+                // Check they are relatively same height
+                if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose rightIndexTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, leftHand, out MixedRealityPose leftIndexTipPose))
+                {
+                    bool isSameHeight = Mathf.Abs(rightIndexTipPose.Position.y - leftIndexTipPose.Position.y) < 0.05;
+                    // Check right is on the right, and left is on the left
+                    bool isCorrectPosition = (rightIndexTipPose.Position.x - leftIndexTipPose.Position.x) > 0;
+
+                    return isSameHeight && isCorrectPosition;
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    private bool isIndexPointed(Handedness hand)
+    {
+        if (HandPoseUtils.ThumbFingerCurl(hand) > pointCurlThreshold &&
+            HandPoseUtils.IndexFingerCurl(hand) <= pointStraightThreshold &&
+            HandPoseUtils.MiddleFingerCurl(hand) > pointCurlThreshold &&
+            HandPoseUtils.RingFingerCurl(hand) > pointCurlThreshold &&
+            HandPoseUtils.PinkyFingerCurl(hand) > pointCurlThreshold)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool isFacingTowardsCentre(Handedness hand)
+    {
+        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose) &&
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.RingKnuckle, hand, out MixedRealityPose ringKnucklePose) &&
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist, hand, out MixedRealityPose wristPose))
+        {
+            var handNormal = Vector3.Cross(indexKnucklePose.Position - wristPose.Position,
+                                                  ringKnucklePose.Position - wristPose.Position).normalized;
+
+            return Vector3.Angle(CameraCache.Main.transform.right, handNormal) < 30;
+        }
+        return false;
+    }
 }
+
