@@ -7,8 +7,10 @@ using Microsoft;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Input;
 
-public class GestureAngleRecogniser : MonoBehaviour
+public class GestureRecogniser : MonoBehaviour
 {
+    private bool isDoneExecuting = true;
+
     /// <summary>
     /// Threshold for defining a curled finger
     /// </summary>
@@ -26,6 +28,8 @@ public class GestureAngleRecogniser : MonoBehaviour
     public float facingAwayFromCameraTrackingThreshold = 120.0f;
     public float flatHandThreshold = 45.0f;
 
+    public GameObject scripts;
+    public GameObject buildingPlansGUI;
     public TextMeshPro textMeshProHit;
 
     Handedness rightHand = Handedness.Right;
@@ -43,33 +47,59 @@ public class GestureAngleRecogniser : MonoBehaviour
         // Check if hand in view
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Both, out MixedRealityPose pose))
         {
-            if (checkPhoto())
+            if (isDoneExecuting)
             {
-                textMeshProHit.SetText("PHOTO");
-            }
-            else if (checkPlans())
-            {
-                textMeshProHit.SetText("PLANS");
-            }
-            else if (checkThumbs())
-            {
-
-            }
-            else if (checkDistance())
-            {
-                textMeshProHit.SetText("DISTANCE");
-            }
-            else if (checkAngle(rightHand) || checkAngle(leftHand))
-            {
-                textMeshProHit.SetText("ANGLE");
-            }
-            else
-            {
-                textMeshProHit.SetText("NONE");
+                isDoneExecuting = false;
+                gestureRecogniser();
+                isDoneExecuting = true;
             }
         }
     }
-
+    private void gestureRecogniser()
+    {
+        if (checkAngle(rightHand))
+        {
+            Debug.Log("HIT");
+            PhotoTaker photoTaker = scripts.GetComponent<PhotoTaker>();
+            photoTaker.StartPhotoTimer();
+            textMeshProHit.SetText("PHOTO");
+        }
+        else if (checkPlans())
+        {
+            buildingPlansGUI.SetActive(true);
+            SetPositionFrontOfPerson positionSetter = buildingPlansGUI.GetComponent<SetPositionFrontOfPerson>();
+            positionSetter.SetPosition();
+            textMeshProHit.SetText("PLANS");
+        }
+        else if (checkThumbs("Up"))
+        {
+            AnnotationMaker annotationMaker = scripts.GetComponent<AnnotationMaker>();
+            annotationMaker.approveHighlightedObject();
+            textMeshProHit.SetText("Thumbs UP");
+        }
+        else if (checkThumbs("Down"))
+        {
+            AnnotationMaker annotationMaker = scripts.GetComponent<AnnotationMaker>();
+            annotationMaker.rejectHighlightedObject();
+            textMeshProHit.SetText("Thumbs DOWN");
+        }
+        else if (checkDistance())
+        {
+            ChangeScene changeScene = scripts.GetComponent<ChangeScene>();
+            changeScene.changeScene("Distance");
+            textMeshProHit.SetText("DISTANCE");
+        }
+        else if (checkAngle(rightHand) || checkAngle(leftHand))
+        {
+            ChangeScene changeScene = scripts.GetComponent<ChangeScene>();
+            changeScene.changeScene("Angle");
+            textMeshProHit.SetText("ANGLE");
+        }
+        else
+        {
+            textMeshProHit.SetText("NONE");
+        }
+    }
     bool checkAngle(Handedness hand)
     {
         if (checkL(hand) && checkPalmFacingConstraint(hand, false, false))
@@ -88,38 +118,31 @@ public class GestureAngleRecogniser : MonoBehaviour
     }
     private bool checkL(Handedness hand)
     {
-        Debug.Log("checkL");
         if (HandPoseUtils.ThumbFingerCurl(hand) <= angleStraightThreshold &&
             HandPoseUtils.IndexFingerCurl(hand) <= angleStraightThreshold &&
             HandPoseUtils.MiddleFingerCurl(hand) > angleCurlThreshold &&
             HandPoseUtils.RingFingerCurl(hand) > angleCurlThreshold &&
             HandPoseUtils.PinkyFingerCurl(hand) > angleCurlThreshold)
         {
-            Debug.Log("L HIT");
             return true;
         }
         return false;
     }
-    bool checkThumbs()
+    bool checkThumbs(string direction)
     {
-        Debug.Log("checkThumbsUp");
-
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpStraightThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
             HandPoseUtils.MiddleFingerCurl(rightHand) > thumbsUpCurlThreshold &&
             HandPoseUtils.RingFingerCurl(rightHand) > thumbsUpCurlThreshold &&
             HandPoseUtils.PinkyFingerCurl(rightHand) > thumbsUpCurlThreshold)
         {
-            if (isThumbUp(rightHand))
+            if (direction == "Up")
             {
-                textMeshProHit.SetText("Thumbs UP");
-                Debug.Log("THUMB HIT");
-                return true;
+                return isThumbUp(rightHand);
             }
-            else if (isThumbDown(rightHand))
+            else if (direction == "Down")
             {
-                textMeshProHit.SetText("Thumbs DOWN");
-                return true;
+                return isThumbDown(rightHand);
             }
         }
 
@@ -152,8 +175,6 @@ public class GestureAngleRecogniser : MonoBehaviour
     }
     bool checkDistance()
     {
-        Debug.Log("checkDistance");
-
         if (isIndexPointed(rightHand) && isIndexPointed(leftHand))
         {
             if (isFacingTowardsCentre(rightHand) && isFacingTowardsCentre(leftHand))
@@ -203,7 +224,6 @@ public class GestureAngleRecogniser : MonoBehaviour
 
     bool checkPhoto()
     {
-        Debug.Log("checkPhoto");
         if (checkL(rightHand) && checkL(leftHand))
         {
             if (isThumbUp(leftHand) && isThumbDown(rightHand))
@@ -218,8 +238,6 @@ public class GestureAngleRecogniser : MonoBehaviour
     }
     bool checkPlans()
     {
-        Debug.Log("checkPlans");
-
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, leftHand, out MixedRealityPose leftPalmPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, rightHand, out MixedRealityPose rightPalmPose))
         {
             if (Vector3.Distance(leftPalmPose.Position, rightPalmPose.Position) > 0.15)
