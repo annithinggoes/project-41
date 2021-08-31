@@ -26,10 +26,7 @@ public class GestureAngleRecogniser : MonoBehaviour
     public float facingAwayFromCameraTrackingThreshold = 120.0f;
     public float flatHandThreshold = 45.0f;
 
-    public TextMeshPro textMeshPro;
     public TextMeshPro textMeshProHit;
-    public TextMeshPro textMeshProWrist;
-    public TextMeshPro textMeshProDebugger;
 
     Handedness rightHand = Handedness.Right;
     Handedness leftHand = Handedness.Left;
@@ -70,23 +67,6 @@ public class GestureAngleRecogniser : MonoBehaviour
             {
                 textMeshProHit.SetText("NONE");
             }
-
-            // Debug.Log("Thumb" + HandPoseUtils.ThumbFingerCurl(hand));
-            // Debug.Log("Index" + HandPoseUtils.IndexFingerCurl(hand));
-            textMeshPro.SetText(
-                "Thumb " + HandPoseUtils.ThumbFingerCurl(rightHand)
-                + "\nIndex " + HandPoseUtils.IndexFingerCurl(rightHand)
-                + "\nMiddle " + HandPoseUtils.MiddleFingerCurl(rightHand)
-                + "\nRing " + HandPoseUtils.RingFingerCurl(rightHand)
-                + "\nPinky " + HandPoseUtils.PinkyFingerCurl(rightHand)
-                );
-
-            // if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Wrist, rightHand, out MixedRealityPose wristPose))
-            // {
-            //     textMeshProWrist.SetText("Wrist\n Position " + wristPose.Position
-            //     + "\nRotation " + wristPose.Rotation);
-            // }
-
         }
     }
 
@@ -233,14 +213,6 @@ public class GestureAngleRecogniser : MonoBehaviour
                     return checkPalmFacingConstraint(leftHand, true, false) && checkPalmFacingConstraint(rightHand, false, false);
                 }
             }
-            else
-            {
-                textMeshProDebugger.SetText("Thumb wrong");
-            }
-        }
-        else
-        {
-            textMeshProDebugger.SetText("Not L");
         }
         return false;
     }
@@ -250,7 +222,6 @@ public class GestureAngleRecogniser : MonoBehaviour
 
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, leftHand, out MixedRealityPose leftPalmPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, rightHand, out MixedRealityPose rightPalmPose))
         {
-            textMeshProDebugger.SetText(Vector3.Distance(leftPalmPose.Position, rightPalmPose.Position) + " distance");
             if (Vector3.Distance(leftPalmPose.Position, rightPalmPose.Position) > 0.15)
             {
                 return false;
