@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -16,7 +18,9 @@ public class Tutorial : GestureRecogniser
     private SelectPointsMeasureAngles angles;
     private SelectPointsDistance distance;
     private PhotoTaker photo;
+    private Stopwatch stopwatch;
 
+    private List<string> times;
     private string[] dialogue = {
         "This tutorial will go through the gestures and functions in this app. Please perform each gesture to move on to the next one. Press Next to begin.",
         "To approve an item, gaze at the cube and perform a Thumbs Up gesture.",
@@ -39,6 +43,8 @@ public class Tutorial : GestureRecogniser
         distance = GetComponent<SelectPointsDistance>();
         distance.enabled = false;
         photo = GetComponent<PhotoTaker>();
+        stopwatch = new Stopwatch();
+        times = new List<string>();
     }
 
     public void ShowNextDialogue()
@@ -49,18 +55,38 @@ public class Tutorial : GestureRecogniser
             case 1:
                 // approve
                 questionCube.SetActive(true);
+                stopwatch.Start();
+                break;
+            case 2:
+                // reject
+                setStopwatch("Approve");
                 break;
             case 3:
                 // angle
                 questionCube.SetActive(false);
+                setStopwatch("Reject");
                 break;
             case 4:
                 // distance
                 ExitMeasuringTool();
+                setStopwatch("Angle");
                 break;
             case 5:
                 // photo
                 ExitMeasuringTool();
+                setStopwatch("Distance");
+                break;
+            case 6:
+                // plans
+                setStopwatch("Photo");
+                break;
+            case 7:
+                // end
+                plans.SetActive(false);
+                stopwatch.Stop();
+                times.Add(String.Format("Show Plans time: {0}", stopwatch.Elapsed));
+                UnityEngine.Debug.Log(String.Format("Show Plans time: {0}", stopwatch.Elapsed));
+                writeTimesToFile();
                 break;
             case 8:
                 SceneManager.LoadScene("SceneWithMR");
@@ -69,6 +95,27 @@ public class Tutorial : GestureRecogniser
         }
         textMeshPro.SetText(dialogue[currentIndex]);
 
+    }
+    private void setStopwatch(string function)
+    {
+        stopwatch.Stop();
+        times.Add(String.Format(function + " time: {0}", stopwatch.Elapsed));
+        UnityEngine.Debug.Log(String.Format(function + " time: {0}", stopwatch.Elapsed));
+        stopwatch.Reset();
+        stopwatch.Start();
+    }
+
+    private void writeTimesToFile()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "LearningGestureTimes_" + DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".txt");
+        UnityEngine.Debug.Log(path);
+        using (TextWriter writer = File.CreateText(path))
+        {
+            foreach (string s in times)
+            {
+                writer.WriteLine(s);
+            }
+        }
     }
     override protected void gestureRecogniser()
     {
