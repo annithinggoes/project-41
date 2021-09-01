@@ -57,7 +57,7 @@ public class GestureRecogniser : MonoBehaviour
     }
     protected virtual void gestureRecogniser()
     {
-        if (checkAngle(rightHand))
+        if (checkPhoto())
         {
             Debug.Log("HIT");
             PhotoTaker photoTaker = scripts.GetComponent<PhotoTaker>();
