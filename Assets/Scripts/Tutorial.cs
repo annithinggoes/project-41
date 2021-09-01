@@ -75,36 +75,42 @@ public class Tutorial : GestureRecogniser
         switch (currentIndex)
         {
             case 1:
+                // approve
                 if (checkThumbs("Up"))
                 {
                     TriggerGesture();
                 }
                 break;
             case 2:
+                // reject
                 if (checkThumbs("Down"))
                 {
                     TriggerGesture();
                 }
                 break;
             case 3:
-                if (checkAngle(rightHand))
+                // angle
+                if (checkAngle(rightHand) || checkAngle(leftHand))
                 {
                     TriggerGesture();
                 }
                 break;
             case 4:
+                // distance
                 if (checkDistance())
                 {
                     TriggerGesture();
                 }
                 break;
             case 5:
+                // photo
                 if (checkPhoto())
                 {
                     TriggerGesture();
                 }
                 break;
             case 6:
+                // plans
                 if (checkPlans())
                 {
                     TriggerGesture();
