@@ -19,7 +19,11 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
     {
         // CoreServices.InputSystem.Register(gameObject);
         CoreServices.InputSystem.RegisterHandler<IMixedRealityPointerHandler>(this);
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer = gameObject.GetComponent<LineRenderer>();
+        if (!lineRenderer)
+        {
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
+        }
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.01f;
         lineRenderer.positionCount = 0;

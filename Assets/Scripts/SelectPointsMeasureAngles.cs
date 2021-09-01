@@ -13,12 +13,16 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
     private int currentIndex = 0;
     private LineRenderer lineRenderer;
     public TextMeshPro text;
-    // Start is called before the first frame update
+
     void OnEnable()
     {
         // CoreServices.InputSystem.Register(gameObject);
         CoreServices.InputSystem.RegisterHandler<IMixedRealityPointerHandler>(this);
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer = gameObject.GetComponent<LineRenderer>();
+        if (!lineRenderer)
+        {
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
+        }
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.01f;
         lineRenderer.positionCount = 0;
@@ -70,7 +74,7 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
                     lineRenderer.SetPositions(linePoints);
 
                     float angle = calculateAngle(points[0], points[1], points[2]);
-                    text.SetText(Math.Round(angle, 2)+" degrees");
+                    text.SetText(Math.Round(angle, 2) + " degrees");
                     text.transform.position = points[1];
                     // Debug.Log(angle);
                     currentIndex = -1;
