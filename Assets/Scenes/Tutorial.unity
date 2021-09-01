@@ -1286,6 +1286,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83213d38d0ef7b4892f7295589bf53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angleCurlThreshold: 0.55
+  angleStraightThreshold: 0.25
+  thumbsUpCurlThreshold: 0.65
+  thumbsUpStraightThreshold: 0.25
+  pointCurlThreshold: 0.55
+  pointStraightThreshold: 0.1
+  facingCameraTrackingThreshold: 60
+  facingAwayFromCameraTrackingThreshold: 120
+  flatHandThreshold: 45
+  scripts: {fileID: 0}
+  buildingPlansGUI: {fileID: 0}
+  textMeshProHit: {fileID: 0}
   textMeshPro: {fileID: 1556829307}
   questionCube: {fileID: 1131596436}
   annotationMaker: {fileID: 613910860}
@@ -3465,7 +3477,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   facingCameraTrackingThreshold: 80
-  requireFlatHand: 0
+  requireFlatHand: 1
   flatHandThreshold: 60
   followHandUntilFacingCamera: 0
   followHandCameraFacingThresholdAngle: 60
