@@ -32,8 +32,8 @@ public class GestureRecogniser : MonoBehaviour
     public GameObject buildingPlansGUI;
     public TextMeshPro textMeshProHit;
 
-    Handedness rightHand = Handedness.Right;
-    Handedness leftHand = Handedness.Left;
+    protected Handedness rightHand = Handedness.Right;
+    protected Handedness leftHand = Handedness.Left;
 
 
     // Start is called before the first frame update
@@ -55,7 +55,7 @@ public class GestureRecogniser : MonoBehaviour
             }
         }
     }
-    private void gestureRecogniser()
+    protected virtual void gestureRecogniser()
     {
         if (checkAngle(rightHand))
         {
@@ -100,7 +100,7 @@ public class GestureRecogniser : MonoBehaviour
             textMeshProHit.SetText("NONE");
         }
     }
-    bool checkAngle(Handedness hand)
+    protected bool checkAngle(Handedness hand)
     {
         if (checkL(hand) && checkPalmFacingConstraint(hand, false, false))
         {
@@ -116,7 +116,7 @@ public class GestureRecogniser : MonoBehaviour
         return false;
 
     }
-    private bool checkL(Handedness hand)
+    protected bool checkL(Handedness hand)
     {
         if (HandPoseUtils.ThumbFingerCurl(hand) <= angleStraightThreshold &&
             HandPoseUtils.IndexFingerCurl(hand) <= angleStraightThreshold &&
@@ -128,7 +128,7 @@ public class GestureRecogniser : MonoBehaviour
         }
         return false;
     }
-    bool checkThumbs(string direction)
+    protected bool checkThumbs(string direction)
     {
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpStraightThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
@@ -173,7 +173,7 @@ public class GestureRecogniser : MonoBehaviour
         }
         return false;
     }
-    bool checkDistance()
+    protected bool checkDistance()
     {
         if (isIndexPointed(rightHand) && isIndexPointed(leftHand))
         {
@@ -222,7 +222,7 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
-    bool checkPhoto()
+    protected bool checkPhoto()
     {
         if (checkL(rightHand) && checkL(leftHand))
         {
@@ -236,7 +236,7 @@ public class GestureRecogniser : MonoBehaviour
         }
         return false;
     }
-    bool checkPlans()
+    protected bool checkPlans()
     {
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, leftHand, out MixedRealityPose leftPalmPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, rightHand, out MixedRealityPose rightPalmPose))
         {

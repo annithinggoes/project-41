@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class Tutorial : MonoBehaviour
+public class Tutorial : GestureRecogniser
 {
     public TextMeshPro textMeshPro;
     public GameObject questionCube;
@@ -62,7 +62,7 @@ public class Tutorial : MonoBehaviour
                 // photo
                 ExitMeasuringTool();
                 break;
-            case 8: 
+            case 8:
                 SceneManager.LoadScene("SceneWithMR");
                 currentIndex--;
                 break;
@@ -70,7 +70,48 @@ public class Tutorial : MonoBehaviour
         textMeshPro.SetText(dialogue[currentIndex]);
 
     }
-
+    override protected void gestureRecogniser()
+    {
+        switch (currentIndex)
+        {
+            case 1:
+                if (checkThumbs("Up"))
+                {
+                    TriggerGesture();
+                }
+                break;
+            case 2:
+                if (checkThumbs("Down"))
+                {
+                    TriggerGesture();
+                }
+                break;
+            case 3:
+                if (checkAngle(rightHand))
+                {
+                    TriggerGesture();
+                }
+                break;
+            case 4:
+                if (checkDistance())
+                {
+                    TriggerGesture();
+                }
+                break;
+            case 5:
+                if (checkPhoto())
+                {
+                    TriggerGesture();
+                }
+                break;
+            case 6:
+                if (checkPlans())
+                {
+                    TriggerGesture();
+                }
+                break;
+        }
+    }
     public void TriggerGesture()
     {
         switch (currentIndex)
@@ -93,7 +134,7 @@ public class Tutorial : MonoBehaviour
             case 5:
                 photo.StartPhotoTimer();
                 break;
-            case 6: 
+            case 6:
                 plans.GetComponent<SetPositionFrontOfPerson>().SetPosition();
                 plans.SetActive(true);
                 break;
