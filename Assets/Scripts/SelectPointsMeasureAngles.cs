@@ -1,4 +1,5 @@
 ﻿using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +14,17 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
     private int currentIndex = 0;
     private LineRenderer lineRenderer;
     public TextMeshPro text;
+    public SpeechConfirmationTooltip tooltipPrefab;
+    private SpeechConfirmationTooltip tooltipInstance = null;
 
     void OnEnable()
     {
+        if (tooltipInstance == null)
+        {
+            tooltipInstance = Instantiate(tooltipPrefab);
+            tooltipInstance.SetText("Angle Mode");
+            tooltipInstance.TriggerConfirmedAnimation();
+        }
         // CoreServices.InputSystem.Register(gameObject);
         CoreServices.InputSystem.RegisterHandler<IMixedRealityPointerHandler>(this);
         lineRenderer = gameObject.GetComponent<LineRenderer>();
