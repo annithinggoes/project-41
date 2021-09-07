@@ -28,6 +28,7 @@ public class GestureRecogniser : MonoBehaviour
     public float facingAwayFromCameraTrackingThreshold = 120.0f;
     public float flatHandThreshold = 45.0f;
 
+    public GameObject menu;
     public GameObject scripts;
     public GameObject buildingPlansGUI;
     public TextMeshPro textMeshProHit;
@@ -66,6 +67,7 @@ public class GestureRecogniser : MonoBehaviour
         }
         else if (checkPlans())
         {
+            toggleMenu(false);
             buildingPlansGUI.SetActive(true);
             SetPositionFrontOfPerson positionSetter = buildingPlansGUI.GetComponent<SetPositionFrontOfPerson>();
             positionSetter.SetPosition();
@@ -285,5 +287,27 @@ public class GestureRecogniser : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void callMenu()
+    {
+        if (!checkPlans())
+        {
+            toggleMenu(true);
+        } else {
+            toggleMenu(false);
+        }
+    }
+
+    private void toggleMenu(bool active)
+    {
+        GameObject btnClose = menu.transform.Find("ButtonClose").gameObject;
+        btnClose.SetActive(active);
+        GameObject backplate = menu.transform.Find("Backplate").gameObject;
+        backplate.SetActive(active);
+        GameObject btnCollection = menu.transform.Find("ButtonCollection").gameObject;
+        btnCollection.SetActive(active);
+        GameObject gravVisualCue = menu.transform.Find("GravVisualCue").gameObject;
+        gravVisualCue.SetActive(active);
     }
 }
