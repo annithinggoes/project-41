@@ -1,4 +1,5 @@
 ﻿using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +16,18 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
     private LineRenderer lineRenderer;
     public TextMeshPro text;
     // Start is called before the first frame update
+    public SpeechConfirmationTooltip tooltipPrefab;
+    private SpeechConfirmationTooltip tooltipInstance = null;
+
     void OnEnable()
     {
+        if (tooltipInstance == null)
+        {
+            tooltipInstance = Instantiate(tooltipPrefab);
+            tooltipInstance.SetText("Distance Mode");
+            tooltipInstance.TriggerConfirmedAnimation();
+        }
+
         // CoreServices.InputSystem.Register(gameObject);
         CoreServices.InputSystem.RegisterHandler<IMixedRealityPointerHandler>(this);
         lineRenderer = gameObject.GetComponent<LineRenderer>();
