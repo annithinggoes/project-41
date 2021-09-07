@@ -18,6 +18,7 @@ public class Tutorial : GestureRecogniser
     private SelectPointsMeasureAngles angles;
     private SelectPointsDistance distance;
     private PhotoTaker photo;
+    private ChangeScene sceneChanger;
     private Stopwatch stopwatch;
 
     private List<string> times;
@@ -45,6 +46,7 @@ public class Tutorial : GestureRecogniser
         photo = GetComponent<PhotoTaker>();
         stopwatch = new Stopwatch();
         times = new List<string>();
+        sceneChanger = GetComponent<ChangeScene>();
     }
 
     public void ShowNextDialogue()
@@ -89,8 +91,8 @@ public class Tutorial : GestureRecogniser
                 writeTimesToFile();
                 break;
             case 8:
-                SceneManager.LoadScene("SceneWithMR");
                 currentIndex--;
+                sceneChanger.changeScene("SceneWithMR");
                 break;
         }
         textMeshPro.SetText(dialogue[currentIndex]);
