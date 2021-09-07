@@ -51,7 +51,9 @@ public class AnnotationMaker : MonoBehaviour
                 Vector3 offset = new Vector3(0, 0.08f, 0);
                 clone = Instantiate(addedMarker, target.transform.position + offset, target.transform.rotation);
                 clone.transform.parent = questionableObject;
-                questionableObject.transform.Find("CommentGUI").gameObject.SetActive(true);
+                GameObject commentGUI = questionableObject.transform.Find("CommentGUI").gameObject;
+                commentGUI.transform.rotation = Camera.main.transform.rotation;
+                commentGUI.SetActive(true);
             }
         }
     }
