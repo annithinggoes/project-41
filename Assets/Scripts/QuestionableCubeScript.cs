@@ -9,6 +9,8 @@ using System.Net;
 public class QuestionableCubeScript : MonoBehaviour
 {
     private static QuestionableCubeScript cubeScriptInstance;
+    public GameObject approveMarker;
+    public GameObject rejectMarker;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,25 @@ public class QuestionableCubeScript : MonoBehaviour
         {
             child.gameObject.SetActive(active);
 
+        }
+    }
+
+    public void ResetCubeAnnotations()
+    {
+        string approveMarkerName = approveMarker.name + "(Clone)";
+        string rejectMarkerName = rejectMarker.name + "(Clone)";
+        foreach (Transform child in transform)
+        {
+            if (child.Find(approveMarkerName) != null)
+            {
+                Destroy(child.Find(approveMarkerName).gameObject);
+            }
+            if (child.Find(rejectMarkerName) != null)
+            {
+                Destroy(child.Find(rejectMarkerName).gameObject);
+            }
+            GameObject commentGUI = child.Find("CommentGUI").gameObject;
+                commentGUI.SetActive(false);
         }
     }
 }
