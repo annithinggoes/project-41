@@ -12,6 +12,7 @@ public class Tutorial : GestureRecogniser
 {
     public TextMeshPro textMeshPro;
     public GameObject questionCube;
+    public GameObject handMenu;
     public AnnotationMaker annotationMaker;
     public GameObject exitMeasureMenu;
     public GameObject plans;
@@ -24,10 +25,11 @@ public class Tutorial : GestureRecogniser
     private List<string> times;
     private string[] dialogue = {
         "This tutorial will go through the gestures and functions in this app. Please perform each gesture to move on to the next one. Press Next to begin.",
+        "To open the menu, bring up your right palm with the palm facing you. It will follow your hand. You can place it down by turning your palm away from you. Press the X button to close it.",
         "To approve an item, gaze at the cube and perform a Thumbs Up gesture.",
         "To reject an item, gaze at the cube and perform a Thumb Down gesture",
-        "To start measuring angles, make an 'L' shape with your thumb and index finger.\nAir tap to select three points to measure the angle between. To exit measuring mode, look at your palm to bring up the menu, and press Back.",
-        "To start measuring distance, hold your two index fingers upright and parallel to each other.\nAir tap to select two points to measure distance between. To exit measuring mode, look at your palm to bring up the menu, and press Back.",
+        "To start measuring angles, make an 'L' shape with your thumb and index finger.\nAir tap to select three points to measure the angle between. To exit measuring mode, look at your right palm to bring up the menu, and press Back.",
+        "To start measuring distance, hold your two index fingers upright and parallel to each other.\nAir tap to select two points to measure distance between. To exit measuring mode, look at your right palm to bring up the menu, and press Back.",
         "To take a photo, make a picture frame gesture with both of your hands.",
         "To open the building plans, place your palms side-by-side like an open book.",
         "End of tutorial. Press Next to continue to the main application."
@@ -54,35 +56,35 @@ public class Tutorial : GestureRecogniser
         currentIndex++;
         switch (currentIndex)
         {
-            case 1:
+            case 2:
                 // approve
                 questionCube.SetActive(true);
                 stopwatch.Start();
                 break;
-            case 2:
+            case 3:
                 // reject
                 setStopwatch("Approve");
                 break;
-            case 3:
+            case 4:
                 // angle
                 questionCube.SetActive(false);
                 setStopwatch("Reject");
                 break;
-            case 4:
+            case 5:
                 // distance
                 ExitMeasuringTool();
                 setStopwatch("Angle");
                 break;
-            case 5:
+            case 6:
                 // photo
                 ExitMeasuringTool();
                 setStopwatch("Distance");
                 break;
-            case 6:
+            case 7:
                 // plans
                 setStopwatch("Photo");
                 break;
-            case 7:
+            case 8:
                 // end
                 plans.SetActive(false);
                 stopwatch.Stop();
@@ -90,7 +92,7 @@ public class Tutorial : GestureRecogniser
                 UnityEngine.Debug.Log(String.Format("Show Plans time: {0}", stopwatch.Elapsed));
                 writeTimesToFile();
                 break;
-            case 8:
+            case 9:
                 currentIndex--;
                 sceneChanger.changeScene("SceneWithMR");
                 break;
@@ -123,42 +125,42 @@ public class Tutorial : GestureRecogniser
     {
         switch (currentIndex)
         {
-            case 1:
+            case 2:
                 // approve
                 if (checkThumbs("Up"))
                 {
                     TriggerGesture();
                 }
                 break;
-            case 2:
+            case 3:
                 // reject
                 if (checkThumbs("Down"))
                 {
                     TriggerGesture();
                 }
                 break;
-            case 3:
+            case 4:
                 // angle
                 if (checkAngle(rightHand) || checkAngle(leftHand))
                 {
                     TriggerGesture();
                 }
                 break;
-            case 4:
+            case 5:
                 // distance
                 if (checkDistance())
                 {
                     TriggerGesture();
                 }
                 break;
-            case 5:
+            case 6:
                 // photo
                 if (checkPhoto())
                 {
                     TriggerGesture();
                 }
                 break;
-            case 6:
+            case 7:
                 // plans
                 if (checkPlans())
                 {
@@ -171,25 +173,32 @@ public class Tutorial : GestureRecogniser
     {
         switch (currentIndex)
         {
-            case 1:
+            case 2:
                 // approve
                 annotationMaker.TutorialApproveHighlightedObject();
                 break;
-            case 2:
+            case 3:
+                //reject
                 annotationMaker.TutorialRejectHighlightedObject();
                 break;
-            case 3:
+            case 4:
+                //angles
                 angles.enabled = true;
                 exitMeasureMenu.SetActive(true);
-                break;
-            case 4:
-                distance.enabled = true;
-                exitMeasureMenu.SetActive(true);
+                handMenu.SetActive(false);
                 break;
             case 5:
-                photo.StartPhotoTimer();
+                // distance
+                distance.enabled = true;
+                exitMeasureMenu.SetActive(true);
+                handMenu.SetActive(false);
                 break;
             case 6:
+                // photo
+                photo.StartPhotoTimer();
+                break;
+            case 7:
+                // plans
                 plans.GetComponent<SetPositionFrontOfPerson>().SetPosition();
                 plans.SetActive(true);
                 break;
@@ -201,5 +210,6 @@ public class Tutorial : GestureRecogniser
         angles.enabled = false;
         distance.enabled = false;
         exitMeasureMenu.SetActive(false);
+        handMenu.SetActive(true);
     }
 }
