@@ -49,7 +49,7 @@ public class QuestionableCubeScript : MonoBehaviour
                 Destroy(child.Find(rejectMarkerName).gameObject);
             }
             GameObject commentGUI = child.Find("CommentGUI").gameObject;
-                commentGUI.SetActive(false);
+            commentGUI.SetActive(false);
         }
     }
 }
