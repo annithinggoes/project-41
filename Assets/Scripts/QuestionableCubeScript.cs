@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Net;
 
-public class QuestionableCubeScript : MonoBehaviour, IMixedRealityPointerHandler
+public class QuestionableCubeScript : MonoBehaviour
 {
     private static QuestionableCubeScript cubeScriptInstance;
     // Start is called before the first frame update
@@ -23,34 +23,12 @@ public class QuestionableCubeScript : MonoBehaviour, IMixedRealityPointerHandler
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetCubesActive(bool active)
     {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(active);
 
-    }
-    void OnEnable()
-    {
-    }
-
-    private void OnDisable()
-    {
-    }
-
-    public void OnPointerDown(MixedRealityPointerEventData eventData)
-    {
-        Debug.Log("onpointer down" + gameObject);
-    }
-
-    public void OnPointerDragged(MixedRealityPointerEventData eventData)
-    {
-        Debug.Log("onpointer dragged" + gameObject);
-    }
-
-    public void OnPointerUp(MixedRealityPointerEventData eventData)
-    {
-        Debug.Log("onpointer up" + gameObject);
-    }
-    public void OnPointerClicked(MixedRealityPointerEventData eventData)
-    {
+        }
     }
 }
