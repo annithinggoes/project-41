@@ -2388,6 +2388,7 @@ GameObject:
   - component: {fileID: 912984968}
   - component: {fileID: 912984970}
   - component: {fileID: 912984971}
+  - component: {fileID: 912984972}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -2453,6 +2454,19 @@ MonoBehaviour:
   secondsToWait: 3
   timerText: {fileID: 1013796412}
   quad: {fileID: 1839209378}
+--- !u!114 &912984972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912984967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f351e819059f57243b3fa17027dc8967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubesEnabled: 1
 --- !u!1 &1013796411
 GameObject:
   m_ObjectHideFlags: 0
