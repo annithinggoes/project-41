@@ -52,6 +52,8 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
         }
         points = new Vector3[2];
         currentIndex = 0;
+        markerA.SetActive(false);
+        markerB.SetActive(false);
     }
 
     public void OnPointerDown(MixedRealityPointerEventData eventData)
@@ -89,7 +91,7 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
 
                     Vector3 textPosition = points[0] + (points[1] - points[0]) / 2;
                     text.transform.position = textPosition;
-                    
+
                     markerB.SetActive(true);
                     markerB.transform.position = points[currentIndex];
 
