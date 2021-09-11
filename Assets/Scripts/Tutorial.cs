@@ -60,6 +60,7 @@ public class Tutorial : GestureRecogniser
                 // approve
                 questionCube.SetActive(true);
                 stopwatch.Start();
+                handMenu.SetActive(false);
                 break;
             case 3:
                 // reject
@@ -185,13 +186,11 @@ public class Tutorial : GestureRecogniser
                 //angles
                 angles.enabled = true;
                 exitMeasureMenu.SetActive(true);
-                handMenu.SetActive(false);
                 break;
             case 5:
                 // distance
                 distance.enabled = true;
                 exitMeasureMenu.SetActive(true);
-                handMenu.SetActive(false);
                 break;
             case 6:
                 // photo
@@ -210,6 +209,5 @@ public class Tutorial : GestureRecogniser
         angles.enabled = false;
         distance.enabled = false;
         exitMeasureMenu.SetActive(false);
-        handMenu.SetActive(true);
     }
 }
