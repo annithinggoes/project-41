@@ -52,6 +52,9 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
         }
         points = new Vector3[3];
         currentIndex = 0;
+        markerA.SetActive(false);
+        markerB.SetActive(false);
+        markerC.SetActive(false);
     }
 
     public void OnPointerDown(MixedRealityPointerEventData eventData)
