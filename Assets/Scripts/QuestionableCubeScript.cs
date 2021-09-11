@@ -36,9 +36,11 @@ public class QuestionableCubeScript : MonoBehaviour
 
     public void ResetCubeAnnotations()
     {
+        Debug.Log("Reset cubes called");
         string approveMarkerName = approveMarker.name + "(Clone)";
         string rejectMarkerName = rejectMarker.name + "(Clone)";
-        foreach (Transform child in transform)
+
+        foreach (Transform child in cubeScriptInstance.transform)
         {
             if (child.Find(approveMarkerName) != null)
             {
