@@ -17,9 +17,13 @@ public class EnableCubes : MonoBehaviour
         } 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void callResetCubes() {
+        QuestionableCubeScript cubes = FindObjectOfType<QuestionableCubeScript>();
+        if (cubes != null){
+            cubes.ResetCubeAnnotations();
+        } else {
+            Debug.Log("could not find cubes");
+        } 
+
     }
 }
