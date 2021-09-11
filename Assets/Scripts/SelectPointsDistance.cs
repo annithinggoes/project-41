@@ -15,9 +15,10 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
     private int currentIndex = 0;
     private LineRenderer lineRenderer;
     public TextMeshPro text;
-    // Start is called before the first frame update
     public SpeechConfirmationTooltip tooltipPrefab;
     private SpeechConfirmationTooltip tooltipInstance = null;
+    public GameObject markerA;
+    public GameObject markerB;
 
     void OnEnable()
     {
@@ -38,6 +39,9 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.01f;
         lineRenderer.positionCount = 0;
+
+        markerA.SetActive(false);
+        markerB.SetActive(false);
     }
 
     private void OnDisable()
@@ -70,6 +74,9 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
                 {
                     lineRenderer.positionCount = 0;
                     text.SetText("");
+                    markerA.SetActive(true);
+                    markerA.transform.position = points[currentIndex];
+                    markerB.SetActive(false);
                 }
                 else if (currentIndex == 1)
                 {
@@ -82,6 +89,9 @@ public class SelectPointsDistance : MonoBehaviour, IMixedRealityPointerHandler
 
                     Vector3 textPosition = points[0] + (points[1] - points[0]) / 2;
                     text.transform.position = textPosition;
+                    
+                    markerB.SetActive(true);
+                    markerB.transform.position = points[currentIndex];
 
                     currentIndex = -1;
                 }

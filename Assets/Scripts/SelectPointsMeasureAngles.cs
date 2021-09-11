@@ -16,6 +16,9 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
     public TextMeshPro text;
     public SpeechConfirmationTooltip tooltipPrefab;
     private SpeechConfirmationTooltip tooltipInstance = null;
+    public GameObject markerA;
+    public GameObject markerB;
+    public GameObject markerC;
 
     void OnEnable()
     {
@@ -35,6 +38,10 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.01f;
         lineRenderer.positionCount = 0;
+
+        markerA.SetActive(false);
+        markerB.SetActive(false);
+        markerC.SetActive(false);
     }
 
     private void OnDisable()
@@ -69,12 +76,18 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
                 {
                     lineRenderer.positionCount = 0;
                     text.SetText("");
+                    markerA.SetActive(true);
+                    markerA.transform.position = points[currentIndex];
+                    markerB.SetActive(false);
+                    markerC.SetActive(false);
                 }
                 else if (currentIndex == 1)
                 {
                     lineRenderer.positionCount = 2;
                     Vector3[] linePoints = { points[0], points[1] };
                     lineRenderer.SetPositions(linePoints);
+                    markerB.SetActive(true);
+                    markerB.transform.position = points[currentIndex];
                 }
                 else if (currentIndex == 2)
                 {
@@ -84,7 +97,11 @@ public class SelectPointsMeasureAngles : MonoBehaviour, IMixedRealityPointerHand
 
                     float angle = calculateAngle(points[0], points[1], points[2]);
                     text.SetText(Math.Round(angle, 2) + " degrees");
-                    text.transform.position = points[1];
+                    Vector3 offset = new Vector3(0, 0.09f, 0);
+                    text.transform.position = points[1] + offset;
+
+                    markerC.SetActive(true);
+                    markerC.transform.position = points[currentIndex];
                     // Debug.Log(angle);
                     currentIndex = -1;
                 }
