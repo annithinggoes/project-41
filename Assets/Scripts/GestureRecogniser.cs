@@ -12,21 +12,21 @@ public class GestureRecogniser : MonoBehaviour
     private bool isDoneExecuting = true;
 
     /// <summary>
-    /// Threshold for defining a curled finger
+    /// Threshold for defining a curled finger, 0.55
     /// </summary>
-    public float angleCurlThreshold = 0.55f;
+    public float angleCurlThreshold;
 
     /// <summary>
-    /// Threshold for defining a straight finger
+    /// Threshold for defining a straight finger, 0.25
     /// </summary>
-    public float angleStraightThreshold = 0.25f;
-    public float thumbsUpCurlThreshold = 0.65f;
-    public float thumbsUpStraightThreshold = 0.25f;
-    public float pointCurlThreshold = 0.55f;
-    public float pointStraightThreshold = 0.1f;
-    public float facingCameraTrackingThreshold = 60.0f;
-    public float facingAwayFromCameraTrackingThreshold = 120.0f;
-    public float flatHandThreshold = 45.0f;
+    public float angleStraightThreshold;
+    public float thumbsUpCurlThreshold; //= 0.65f
+    public float thumbsUpStraightThreshold;//= 0.25f
+    public float pointCurlThreshold; // = 0.55f
+    public float pointStraightThreshold; // = 0.1f
+    public float facingCameraTrackingThreshold;//= 60.0f
+    public float facingAwayFromCameraTrackingThreshold;//= 120.0f
+    public float flatHandThreshold;// = 45.0f
 
     public GameObject menu;
     public GameObject scripts;
