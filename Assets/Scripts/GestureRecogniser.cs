@@ -111,7 +111,7 @@ public class GestureRecogniser : MonoBehaviour
                 Vector3 indexDirection = indexTipPose.Position - indexKnucklePose.Position;
                 float indexCameraAngle = Vector3.Angle(indexDirection, CameraCache.Main.transform.up);
 
-                return indexCameraAngle < 60;
+                return indexCameraAngle < 30;
 
             }
         }
@@ -291,7 +291,7 @@ public class GestureRecogniser : MonoBehaviour
 
     public void callMenu()
     {
-        if (!checkPlans())
+        if (!checkPlans() && !checkThumbs("Up"))
         {
             toggleMenu(true);
         } else {
