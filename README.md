@@ -11,3 +11,8 @@
 4) ![image](https://user-images.githubusercontent.com/52563454/127789449-d3d79583-2180-4377-81a8-e2a3bd6b5ada.png)
 5) Select only ARM64 and Always for bundle and press Create ![image](https://user-images.githubusercontent.com/52563454/127789568-7d63ac9b-e632-4b7d-8aab-f8c213310747.png)
 6) In Device Portal, Apps>Local Storage, select the generated .appxbundle file then Install
+
+## Release
+User testing release is on branch  `release/user-testing-scenario`.
+
+It is also under the release tab https://github.com/annithinggoes/project-41/releases/tag/v1.0
